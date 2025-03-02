@@ -1,0 +1,35 @@
+/* Custom styles for the healthcare dashboard */
+.stApp {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.plan-card {
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.plan-header {
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.benefit-tracker {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+.export-button {
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-align: center;
+}
