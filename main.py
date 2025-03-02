@@ -74,21 +74,28 @@ def manage_dependents_page():
 
         # Select applicable plans
         available_plans = plan_handler.get_filtered_plans()
-        plan_options = available_plans['plan_name'].unique()
-        selected_plans = st.multiselect(
-            "Select Applicable Insurance Plans",
-            options=plan_options
-        )
+        if not available_plans.empty:
+            plan_options = available_plans['plan_name'].tolist()
+            selected_plans = st.multiselect(
+                "Select Applicable Insurance Plans",
+                options=plan_options
+            )
+        else:
+            st.warning("Please add insurance plans before adding dependents.")
+            selected_plans = []
 
-        if st.form_submit_button("Add Dependent"):
+        submit_button = st.form_submit_button("Add Dependent")
+        if submit_button and name and relationship and selected_plans:
             plan_handler.add_dependent({
                 'name': name,
                 'relationship': relationship,
-                'date_of_birth': dob,
+                'date_of_birth': dob.strftime('%Y-%m-%d'),
                 'plan_ids': selected_plans
             })
             st.success(f"Dependent {name} added successfully!")
             st.rerun()
+        elif submit_button:
+            st.error("Please fill in all required fields.")
 
     # Display existing dependents
     st.subheader("Your Dependents")
@@ -116,16 +123,20 @@ def provider_search_page():
         address = st.text_input("Address")
         phone = st.text_input("Phone Number")
         accepting_new = st.checkbox("Accepting New Patients")
+
+        available_providers = plan_handler.get_filtered_plans()['provider'].unique()
         insurance_accepted = st.multiselect(
             "Insurance Plans Accepted",
-            options=plan_handler.get_filtered_plans()['provider'].unique()
+            options=available_providers if len(available_providers) > 0 else ["No plans available"]
         )
+
         plan_types = st.multiselect(
             "Types of Plans Accepted",
             options=["HMO", "PPO", "EPO", "POS"]
         )
 
-        if st.form_submit_button("Add Provider"):
+        submit_button = st.form_submit_button("Add Provider")
+        if submit_button and provider_name and specialty and address and phone:
             plan_handler.add_provider({
                 'name': provider_name,
                 'specialty': specialty,
@@ -137,37 +148,45 @@ def provider_search_page():
             })
             st.success(f"Provider {provider_name} added successfully!")
             st.rerun()
+        elif submit_button:
+            st.error("Please fill in all required fields.")
 
     # Search providers
     st.subheader("Search Providers")
-    col1, col2 = st.columns(2)
-    with col1:
-        search_specialty = st.selectbox(
-            "Filter by Specialty",
-            ["All"] + list(plan_handler.get_providers()['specialty'].unique())
+    providers_df = plan_handler.get_providers()
+
+    if not providers_df.empty:
+        col1, col2 = st.columns(2)
+        with col1:
+            specialties = ["All"] + list(providers_df['specialty'].unique())
+            search_specialty = st.selectbox(
+                "Filter by Specialty",
+                options=specialties
+            )
+        with col2:
+            accepting_new_only = st.checkbox("Show Only Providers Accepting New Patients")
+
+        # Display filtered providers
+        filtered_providers = plan_handler.get_providers(
+            specialty=search_specialty,
+            accepting_new=accepting_new_only if accepting_new_only else None
         )
-    with col2:
-        accepting_new_only = st.checkbox("Show Only Providers Accepting New Patients")
 
-    # Display filtered providers
-    filtered_providers = plan_handler.get_providers(
-        specialty=None if search_specialty == "All" else search_specialty,
-        accepting_new=accepting_new_only if accepting_new_only else None
-    )
-
-    if not filtered_providers.empty:
-        for _, provider in filtered_providers.iterrows():
-            with st.expander(f"{provider['name']} - {provider['specialty']}"):
-                st.write(f"Address: {provider['address']}")
-                st.write(f"Phone: {provider['phone']}")
-                st.write("Insurance Accepted:", ", ".join(provider['insurance_accepted']))
-                st.write("Plan Types:", ", ".join(provider['plan_types']))
-                if provider['accepting_new_patients']:
-                    st.success("✔️ Accepting New Patients")
-                else:
-                    st.warning("❌ Not Accepting New Patients")
+        if not filtered_providers.empty:
+            for _, provider in filtered_providers.iterrows():
+                with st.expander(f"{provider['name']} - {provider['specialty']}"):
+                    st.write(f"Address: {provider['address']}")
+                    st.write(f"Phone: {provider['phone']}")
+                    st.write("Insurance Accepted:", ", ".join(provider['insurance_accepted']))
+                    st.write("Plan Types:", ", ".join(provider['plan_types']))
+                    if provider['accepting_new_patients']:
+                        st.success("✔️ Accepting New Patients")
+                    else:
+                        st.warning("❌ Not Accepting New Patients")
+        else:
+            st.info("No providers found matching your criteria.")
     else:
-        st.info("No providers found matching your criteria.")
+        st.info("No providers have been added yet.")
 
 def main_app():
     # Sidebar navigation
