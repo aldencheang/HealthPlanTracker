@@ -2,7 +2,7 @@
 .stApp {
     max-width: 1200px;
     margin: 0 auto;
-    color: #1a1a1a;
+    color: #262730;
 }
 
 .hero-section {
@@ -113,6 +113,139 @@
     z-index: 1000;
 }
 
+.blog-card {
+    background: white;
+    border-radius: 15px;
+    padding: 0;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.blog-image {
+    width: 100%;
+    height: 200px;
+    background-position: center;
+    background-size: cover;
+}
+
+.blog-content {
+    padding: 2rem;
+}
+
+.blog-title {
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.blog-excerpt {
+    color: #4a4a4a;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.blog-meta {
+    color: #666;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.roadmap-stage {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #f0f0f0;
+    transition: transform 0.3s ease;
+}
+
+.roadmap-stage:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.roadmap-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.roadmap-features {
+    list-style-type: none;
+    padding: 0;
+}
+
+.roadmap-features li {
+    margin: 1rem 0;
+    padding-left: 2rem;
+    position: relative;
+    color: #4a4a4a;
+    line-height: 1.6;
+}
+
+.roadmap-features li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #1a1a1a;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+.feature-item {
+    background: white;
+    border-radius: 15px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 3rem 0;
+    color: #1a1a1a;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #666;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
 .testimonial-section {
     background: #f8f8f8;
     padding: 4rem 2rem;
@@ -158,109 +291,6 @@
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-}
-
-.section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin: 3rem 0;
-    color: #1a1a1a;
-}
-
-.section-subtitle {
-    font-size: 1.2rem;
-    text-align: center;
-    margin-bottom: 3rem;
-    color: #666;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 2rem 0;
-}
-
-.feature-item {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-}
-
-.feature-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-}
-
-.blog-card {
-    background: white;
-    border-radius: 15px;
-    padding: 0;
-    margin: 1.5rem 0;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
-
-.blog-image {
-    width: 100%;
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-}
-
-.blog-content {
-    padding: 1.5rem;
-}
-
-.blog-title {
-    font-size: 1.5rem;
-    color: #0066cc;
-    margin-bottom: 1rem;
-}
-
-.blog-excerpt {
-    color: #4a4a4a;
-    margin-bottom: 1rem;
-}
-
-.roadmap-stage {
-    background: white;
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin: 1rem 0;
-    border: 2px solid #0066cc;
-}
-
-.roadmap-title {
-    color: #0066cc;
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-.roadmap-features {
-    list-style-type: none;
-    padding: 0;
-}
-
-.roadmap-features li {
-    margin: 0.5rem 0;
-    padding-left: 1.5rem;
-    position: relative;
-}
-
-.roadmap-features li:before {
-    content: "→";
-    position: absolute;
-    left: 0;
-    color: #0066cc;
 }
 
 .plan-card {
