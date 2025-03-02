@@ -25,72 +25,180 @@ auth_handler = AuthHandler()
 plan_handler = InsurancePlanHandler()
 
 def landing_page():
-    # Hero Section
-    st.markdown("""
-    <div class="hero-section">
-        <h1 class="hero-title">Welcome to Nest</h1>
-        <p class="hero-subtitle">Your all-in-one healthcare benefits management platform</p>
-    </div>
-    """, unsafe_allow_html=True)
+    tabs = st.tabs(["Home", "Blog", "Product Roadmap"])
 
-    # Feature Highlights
-    st.subheader("Why Choose Nest?")
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
+    with tabs[0]:  # Home Tab
+        # Hero Section
         st.markdown("""
-        <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3>Smart Benefits Tracking</h3>
-            <p>Monitor all your healthcare plans in one place. Track benefits usage, deductibles, and coverage periods effortlessly.</p>
+        <div class="hero-section">
+            <h1 class="hero-title">Welcome to Nest</h1>
+            <p class="hero-subtitle">Your all-in-one healthcare benefits management platform</p>
         </div>
         """, unsafe_allow_html=True)
 
-    with col2:
-        st.markdown("""
-        <div class="feature-card">
-            <div class="feature-icon">👨‍👩‍👧‍👦</div>
-            <h3>Family Management</h3>
-            <p>Easily manage dependents' coverage and track their benefits. Keep your family's healthcare organized.</p>
-        </div>
-        """, unsafe_allow_html=True)
+        # Feature Highlights
+        st.subheader("Why Choose Nest?")
+        col1, col2, col3 = st.columns(3)
 
-    with col3:
-        st.markdown("""
-        <div class="feature-card">
-            <div class="feature-icon">🏥</div>
-            <h3>Provider Network</h3>
-            <p>Find and save in-network healthcare providers. Get notifications about accepting new patients.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    # Beta Signup Section
-    st.markdown("""
-    <div class="beta-signup">
-        <h2>Join the Beta Program</h2>
-        <p>Be among the first to experience the future of healthcare benefits management.</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    with st.form("beta_signup"):
-        col1, col2 = st.columns(2)
         with col1:
-            name = st.text_input("Full Name")
-            email = st.text_input("Email Address")
+            st.markdown("""
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Smart Benefits Tracking</h3>
+                <p>Monitor all your healthcare plans in one place. Track benefits usage, deductibles, and coverage periods effortlessly.</p>
+            </div>
+            """, unsafe_allow_html=True)
+
         with col2:
-            phone = st.text_input("Phone Number")
-            location = st.text_input("ZIP Code")
+            st.markdown("""
+            <div class="feature-card">
+                <div class="feature-icon">👨‍👩‍👧‍👦</div>
+                <h3>Family Management</h3>
+                <p>Easily manage dependents' coverage and track their benefits. Keep your family's healthcare organized.</p>
+            </div>
+            """, unsafe_allow_html=True)
 
-        agreed = st.checkbox("I agree to receive updates about Nest's development and launch")
+        with col3:
+            st.markdown("""
+            <div class="feature-card">
+                <div class="feature-icon">🏥</div>
+                <h3>Provider Network</h3>
+                <p>Find and save in-network healthcare providers. Get notifications about accepting new patients.</p>
+            </div>
+            """, unsafe_allow_html=True)
 
-        if st.form_submit_button("Join the Beta Waitlist"):
-            if name and email and phone and location and agreed:
-                st.success("Thanks for joining our beta waitlist! We'll keep you updated on our progress.")
-                # Here you would typically save this to a database
-            else:
-                st.error("Please fill in all fields and accept the terms.")
+        # Testimonials
+        st.subheader("What Our Users Say")
+        col1, col2 = st.columns(2)
 
-    # Access Beta Button
+        with col1:
+            st.markdown("""
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Nest helped me save over $2,000 in unused benefits that I would have otherwise lost. The reminders and tracking features are invaluable!"</p>
+                <p class="testimonial-author">- Sarah M., Healthcare Professional</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col2:
+            st.markdown("""
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Managing healthcare for a family of five was a nightmare before Nest. Now I can track everyone's benefits and find providers all in one place."</p>
+                <p class="testimonial-author">- Michael R., Parent of Three</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Beta Signup Section
+        st.markdown("""
+        <div class="beta-signup">
+            <h2>Join the Beta Program</h2>
+            <p>Be among the first to experience the future of healthcare benefits management.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        with st.form("beta_signup"):
+            col1, col2 = st.columns(2)
+            with col1:
+                name = st.text_input("Full Name")
+                email = st.text_input("Email Address")
+            with col2:
+                phone = st.text_input("Phone Number")
+                location = st.text_input("ZIP Code")
+
+            agreed = st.checkbox("I agree to receive updates about Nest's development and launch")
+
+            if st.form_submit_button("Join the Beta Waitlist"):
+                if name and email and phone and location and agreed:
+                    st.success("Thanks for joining our beta waitlist! We'll keep you updated on our progress.")
+                else:
+                    st.error("Please fill in all fields and accept the terms.")
+
+    with tabs[1]:  # Blog Tab
+        st.title("Healthcare Insights")
+
+        # Blog Article 1
+        st.markdown("""
+        <div class="blog-card">
+            <div class="blog-image" style="background-color: #f0f2f6;">
+                📊 Healthcare Statistics Visualization
+            </div>
+            <div class="blog-content">
+                <h2 class="blog-title">The Hidden Cost of Unused Healthcare Benefits</h2>
+                <p class="blog-excerpt">Studies show that Americans leave billions in healthcare benefits unused each year. Learn how Nest helps you maximize your benefits and avoid leaving money on the table.</p>
+                <p>Recent studies indicate that the average American family loses over $750 annually in unused healthcare benefits. This represents a significant portion of their healthcare investment that could be better utilized for preventive care and necessary medical procedures.</p>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Blog Article 2
+        st.markdown("""
+        <div class="blog-card">
+            <div class="blog-image" style="background-color: #f0f2f6;">
+                🏥 Healthcare Provider Network
+            </div>
+            <div class="blog-content">
+                <h2 class="blog-title">Maximizing Your Healthcare Network</h2>
+                <p class="blog-excerpt">Understanding your provider network can save you thousands. Discover how Nest simplifies finding and managing in-network healthcare providers.</p>
+                <p>Out-of-network charges can be up to 5 times higher than in-network rates. Nest helps you stay within your network and manage your healthcare costs effectively.</p>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tabs[2]:  # Product Roadmap Tab
+        st.title("Product Roadmap")
+
+        # Stage 1: MVP
+        st.markdown("""
+        <div class="roadmap-stage">
+            <h3 class="roadmap-title">Stage 1: MVP (Current)</h3>
+            <ul class="roadmap-features">
+                <li>Basic benefits tracking and management</li>
+                <li>Family member and dependent profiles</li>
+                <li>Healthcare provider directory</li>
+                <li>Benefits usage analytics</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Stage 2: Enhanced Features
+        st.markdown("""
+        <div class="roadmap-stage">
+            <h3 class="roadmap-title">Stage 2: Enhanced Features (Q2 2025)</h3>
+            <ul class="roadmap-features">
+                <li>Integration with major healthcare portals</li>
+                <li>Automated benefits tracking</li>
+                <li>Smart notifications for unused benefits</li>
+                <li>Mobile app launch</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Stage 3: Provider Integration
+        st.markdown("""
+        <div class="roadmap-stage">
+            <h3 class="roadmap-title">Stage 3: Provider Integration (Q3 2025)</h3>
+            <ul class="roadmap-features">
+                <li>Direct appointment scheduling</li>
+                <li>Real-time provider availability</li>
+                <li>Telehealth integration</li>
+                <li>Digital health records management</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Stage 4: AI and Automation
+        st.markdown("""
+        <div class="roadmap-stage">
+            <h3 class="roadmap-title">Stage 4: AI and Automation (Q4 2025)</h3>
+            <ul class="roadmap-features">
+                <li>AI-powered benefits optimization</li>
+                <li>Predictive healthcare spending analysis</li>
+                <li>Automated claims tracking</li>
+                <li>Personalized wellness recommendations</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Access Beta Button (shown on all tabs)
     if st.button("Already have beta access? Log in"):
         st.session_state.show_login = True
         st.rerun()
