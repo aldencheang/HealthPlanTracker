@@ -24,97 +24,63 @@ with open('styles/custom.css') as f:
 auth_handler = AuthHandler()
 plan_handler = InsurancePlanHandler()
 
+def show_menu():
+    menu_items = ["Blog", "Roadmap", "Features"]
+    menu = st.selectbox("☰", ["Menu"] + menu_items, key="menu_dropdown")
+    return menu
+
+def features_page():
+    st.title("Nest Features")
+
+    features = [
+        {
+            "icon": "📊",
+            "title": "Smart Plan Comparison",
+            "description": "Compare different healthcare plans side by side with our intelligent comparison tool."
+        },
+        {
+            "icon": "🤖",
+            "title": "AI Plan Recommendations",
+            "description": "Get personalized plan recommendations based on your lifestyle and needs."
+        },
+        {
+            "icon": "👨‍👩‍👧‍👦",
+            "title": "Family Benefits Management",
+            "description": "Manage the entire family's healthcare benefits in one place."
+        },
+        {
+            "icon": "📱",
+            "title": "Mobile Access",
+            "description": "Access your benefits information anywhere, anytime."
+        },
+        {
+            "icon": "🏥",
+            "title": "Provider Network",
+            "description": "Find and manage in-network healthcare providers easily."
+        },
+        {
+            "icon": "⏰",
+            "title": "Smart Reminders",
+            "description": "Never miss important deadlines with automated reminders."
+        }
+    ]
+
+    st.markdown('<div class="features-grid">', unsafe_allow_html=True)
+    for feature in features:
+        st.markdown(f"""
+        <div class="feature-item">
+            <div style="font-size: 3rem">{feature['icon']}</div>
+            <h3>{feature['title']}</h3>
+            <p>{feature['description']}</p>
+        </div>
+        """, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
 def landing_page():
-    tabs = st.tabs(["Home", "Blog", "Product Roadmap"])
+    menu = show_menu()
 
-    with tabs[0]:  # Home Tab
-        # Hero Section
-        st.markdown("""
-        <div class="hero-section">
-            <h1 class="hero-title">Welcome to Nest</h1>
-            <p class="hero-subtitle">Your all-in-one healthcare benefits management platform</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        # Feature Highlights
-        st.subheader("Why Choose Nest?")
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            st.markdown("""
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Smart Benefits Tracking</h3>
-                <p>Monitor all your healthcare plans in one place. Track benefits usage, deductibles, and coverage periods effortlessly.</p>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col2:
-            st.markdown("""
-            <div class="feature-card">
-                <div class="feature-icon">👨‍👩‍👧‍👦</div>
-                <h3>Family Management</h3>
-                <p>Easily manage dependents' coverage and track their benefits. Keep your family's healthcare organized.</p>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col3:
-            st.markdown("""
-            <div class="feature-card">
-                <div class="feature-icon">🏥</div>
-                <h3>Provider Network</h3>
-                <p>Find and save in-network healthcare providers. Get notifications about accepting new patients.</p>
-            </div>
-            """, unsafe_allow_html=True)
-
-        # Testimonials
-        st.subheader("What Our Users Say")
-        col1, col2 = st.columns(2)
-
-        with col1:
-            st.markdown("""
-            <div class="testimonial-card">
-                <p class="testimonial-text">"Nest helped me save over $2,000 in unused benefits that I would have otherwise lost. The reminders and tracking features are invaluable!"</p>
-                <p class="testimonial-author">- Sarah M., Healthcare Professional</p>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with col2:
-            st.markdown("""
-            <div class="testimonial-card">
-                <p class="testimonial-text">"Managing healthcare for a family of five was a nightmare before Nest. Now I can track everyone's benefits and find providers all in one place."</p>
-                <p class="testimonial-author">- Michael R., Parent of Three</p>
-            </div>
-            """, unsafe_allow_html=True)
-
-        # Beta Signup Section
-        st.markdown("""
-        <div class="beta-signup">
-            <h2>Join the Beta Program</h2>
-            <p>Be among the first to experience the future of healthcare benefits management.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        with st.form("beta_signup"):
-            col1, col2 = st.columns(2)
-            with col1:
-                name = st.text_input("Full Name")
-                email = st.text_input("Email Address")
-            with col2:
-                phone = st.text_input("Phone Number")
-                location = st.text_input("ZIP Code")
-
-            agreed = st.checkbox("I agree to receive updates about Nest's development and launch")
-
-            if st.form_submit_button("Join the Beta Waitlist"):
-                if name and email and phone and location and agreed:
-                    st.success("Thanks for joining our beta waitlist! We'll keep you updated on our progress.")
-                else:
-                    st.error("Please fill in all fields and accept the terms.")
-
-    with tabs[1]:  # Blog Tab
+    if menu == "Blog":
         st.title("Healthcare Insights")
-
         # Blog Article 1
         st.markdown("""
         <div class="blog-card">
@@ -143,9 +109,8 @@ def landing_page():
         </div>
         """, unsafe_allow_html=True)
 
-    with tabs[2]:  # Product Roadmap Tab
+    elif menu == "Roadmap":
         st.title("Product Roadmap")
-
         # Stage 1: MVP
         st.markdown("""
         <div class="roadmap-stage">
@@ -198,10 +163,96 @@ def landing_page():
         </div>
         """, unsafe_allow_html=True)
 
-    # Access Beta Button (shown on all tabs)
-    if st.button("Already have beta access? Log in"):
-        st.session_state.show_login = True
-        st.rerun()
+    elif menu == "Features":
+        features_page()
+    else:
+        # Hero Section with enhanced styling
+        st.markdown("""
+        <div class="hero-section">
+            <h1 class="hero-title">Welcome to Nest 🪹</h1>
+            <p class="hero-subtitle">Simplify Your Healthcare Journey</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Feature Highlights
+        st.subheader("Why Choose Nest? 🌟")
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.markdown("""
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Smart Benefits Tracking</h3>
+                <p>Never lose track of your benefits again. Our AI-powered system helps you maximize every dollar.</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col2:
+            st.markdown("""
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>Plan Comparison</h3>
+                <p>Compare plans side by side and get personalized recommendations based on your needs.</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col3:
+            st.markdown("""
+            <div class="feature-card">
+                <div class="feature-icon">👨‍👩‍👧‍👦</div>
+                <h3>Family First</h3>
+                <p>Manage the whole family's healthcare journey in one place. Simple, organized, and effective.</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Perfect For Section
+        st.subheader("Perfect For 🎯")
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.markdown("""
+            <div class="user-persona">
+                <div class="user-persona-icon">👨‍👩‍👧‍👦</div>
+                <div class="user-persona-title">Families</div>
+                <p>Managing multiple plans and dependents</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col2:
+            st.markdown("""
+            <div class="user-persona">
+                <div class="user-persona-icon">💼</div>
+                <div class="user-persona-title">Professionals</div>
+                <p>Maximizing employer benefits</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col3:
+            st.markdown("""
+            <div class="user-persona">
+                <div class="user-persona-icon">🏢</div>
+                <div class="user-persona-title">HR Managers</div>
+                <p>Helping employees make informed choices</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Join Beta Button
+        st.markdown("""
+        <a href="#" class="join-beta-button" onclick="handleBetaClick()">
+            Join Beta 🚀
+        </a>
+        <script>
+        function handleBetaClick() {
+            window.location.hash = 'beta';
+            window.location.reload();
+        }
+        </script>
+        """, unsafe_allow_html=True)
+
+        if st.button("Already have access? Log in →"):
+            st.session_state.show_login = True
+            st.rerun()
+
 
 def login_page():
     st.title("Beta Access - Login")
