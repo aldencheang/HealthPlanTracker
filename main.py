@@ -166,33 +166,37 @@ def landing_page():
     elif menu == "Features":
         features_page()
     else:
-        # Hero Section with enhanced styling
+        # Hero Section with modern styling
         st.markdown("""
         <div class="hero-section">
-            <h1 class="hero-title">Welcome to Nest 🪹</h1>
+            <h1 class="hero-title">Nest 🪹</h1>
             <p class="hero-subtitle">Simplify Your Healthcare Journey</p>
         </div>
         """, unsafe_allow_html=True)
 
         # Feature Highlights
-        st.subheader("Why Choose Nest? 🌟")
+        st.markdown("""
+        <h2 class="section-title">Why Choose Nest? ✨</h2>
+        <p class="section-subtitle">Streamline your healthcare benefits management with our intelligent platform</p>
+        """, unsafe_allow_html=True)
+
         col1, col2, col3 = st.columns(3)
 
         with col1:
             st.markdown("""
             <div class="feature-card">
                 <div class="feature-icon">📊</div>
-                <h3>Smart Benefits Tracking</h3>
-                <p>Never lose track of your benefits again. Our AI-powered system helps you maximize every dollar.</p>
+                <h3 class="feature-title">Smart Analytics</h3>
+                <p>Track and optimize your benefits with AI-powered insights and recommendations.</p>
             </div>
             """, unsafe_allow_html=True)
 
         with col2:
             st.markdown("""
             <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3>Plan Comparison</h3>
-                <p>Compare plans side by side and get personalized recommendations based on your needs.</p>
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Personalized Plans</h3>
+                <p>Get tailored healthcare plan recommendations based on your unique needs.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -200,13 +204,52 @@ def landing_page():
             st.markdown("""
             <div class="feature-card">
                 <div class="feature-icon">👨‍👩‍👧‍👦</div>
-                <h3>Family First</h3>
-                <p>Manage the whole family's healthcare journey in one place. Simple, organized, and effective.</p>
+                <h3 class="feature-title">Family First</h3>
+                <p>Manage your entire family's healthcare journey in one secure platform.</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Testimonials Section
+        st.markdown("""
+        <div class="testimonial-section">
+            <h2 class="section-title">What Our Users Say 💬</h2>
+            """, unsafe_allow_html=True)
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("""
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Nest transformed how I manage healthcare for my family. The AI recommendations helped me save over $2,000 in unused benefits last year!"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">👩‍💼</div>
+                    <div>
+                        <p>Sarah Martinez</p>
+                        <small>Healthcare Professional & Mother of Two</small>
+                    </div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col2:
+            st.markdown("""
+            <div class="testimonial-card">
+                <p class="testimonial-text">"As an HR manager, Nest has made it incredibly easy to help our employees make informed decisions about their healthcare plans."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">👨‍💼</div>
+                    <div>
+                        <p>Michael Chen</p>
+                        <small>HR Director at TechCorp</small>
+                    </div>
+                </div>
             </div>
             """, unsafe_allow_html=True)
 
         # Perfect For Section
-        st.subheader("Perfect For 🎯")
+        st.markdown("""
+        <h2 class="section-title">Perfect For You 🎯</h2>
+        """, unsafe_allow_html=True)
+
         col1, col2, col3 = st.columns(3)
 
         with col1:
@@ -214,25 +257,25 @@ def landing_page():
             <div class="user-persona">
                 <div class="user-persona-icon">👨‍👩‍👧‍👦</div>
                 <div class="user-persona-title">Families</div>
-                <p>Managing multiple plans and dependents</p>
+                <p>Simplify healthcare for your entire family with smart benefit tracking and provider management.</p>
             </div>
             """, unsafe_allow_html=True)
 
         with col2:
             st.markdown("""
             <div class="user-persona">
-                <div class="user-persona-icon">💼</div>
+                <div class="user-persona-icon">👩‍💼</div>
                 <div class="user-persona-title">Professionals</div>
-                <p>Maximizing employer benefits</p>
+                <p>Maximize your employer benefits and make informed healthcare decisions.</p>
             </div>
             """, unsafe_allow_html=True)
 
         with col3:
             st.markdown("""
             <div class="user-persona">
-                <div class="user-persona-icon">🏢</div>
-                <div class="user-persona-title">HR Managers</div>
-                <p>Helping employees make informed choices</p>
+                <div class="user-persona-icon">👥</div>
+                <div class="user-persona-title">HR Teams</div>
+                <p>Empower your employees with a powerful healthcare benefits management platform.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -241,15 +284,9 @@ def landing_page():
         <a href="#" class="join-beta-button" onclick="handleBetaClick()">
             Join Beta 🚀
         </a>
-        <script>
-        function handleBetaClick() {
-            window.location.hash = 'beta';
-            window.location.reload();
-        }
-        </script>
         """, unsafe_allow_html=True)
 
-        if st.button("Already have access? Log in →"):
+        if st.button("Already have access? Sign in →"):
             st.session_state.show_login = True
             st.rerun()
 
