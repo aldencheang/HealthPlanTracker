@@ -38,7 +38,7 @@ def login_page():
                 success, message = auth_handler.login_user(username, password)
                 if success:
                     st.success(message)
-                    st.experimental_rerun()
+                    st.rerun()
                 else:
                     st.error(message)
 
@@ -55,11 +55,119 @@ def login_page():
                 )
                 if success:
                     st.success(message)
-                    # Auto-login after successful registration
                     auth_handler.login_user(new_username, new_password)
-                    st.experimental_rerun()
+                    st.rerun()
                 else:
                     st.error(message)
+
+def manage_dependents_page():
+    st.title("Manage Dependents")
+
+    # Add new dependent
+    with st.form("add_dependent_form"):
+        st.subheader("Add New Dependent")
+        name = st.text_input("Dependent's Full Name")
+        relationship = st.selectbox("Relationship", [
+            "Spouse", "Child", "Parent", "Other"
+        ])
+        dob = st.date_input("Date of Birth")
+
+        # Select applicable plans
+        available_plans = plan_handler.get_filtered_plans()
+        plan_options = available_plans['plan_name'].unique()
+        selected_plans = st.multiselect(
+            "Select Applicable Insurance Plans",
+            options=plan_options
+        )
+
+        if st.form_submit_button("Add Dependent"):
+            plan_handler.add_dependent({
+                'name': name,
+                'relationship': relationship,
+                'date_of_birth': dob,
+                'plan_ids': selected_plans
+            })
+            st.success(f"Dependent {name} added successfully!")
+            st.rerun()
+
+    # Display existing dependents
+    st.subheader("Your Dependents")
+    dependents = plan_handler.get_dependents()
+    if not dependents.empty:
+        for _, dependent in dependents.iterrows():
+            with st.expander(f"{dependent['name']} - {dependent['relationship']}"):
+                st.write(f"Date of Birth: {dependent['date_of_birth']}")
+                st.write("Covered under plans:", ", ".join(dependent['plan_ids']))
+    else:
+        st.info("No dependents added yet.")
+
+def provider_search_page():
+    st.title("Find and Save Healthcare Providers")
+    user_data = auth_handler.get_user_data(auth_handler.get_current_user())
+
+    # Add new provider
+    with st.form("add_provider_form"):
+        st.subheader("Add Healthcare Provider")
+        provider_name = st.text_input("Provider Name")
+        specialty = st.selectbox("Specialty", [
+            "Primary Care", "Pediatrics", "Dental", "Vision", 
+            "Cardiology", "Dermatology", "Other"
+        ])
+        address = st.text_input("Address")
+        phone = st.text_input("Phone Number")
+        accepting_new = st.checkbox("Accepting New Patients")
+        insurance_accepted = st.multiselect(
+            "Insurance Plans Accepted",
+            options=plan_handler.get_filtered_plans()['provider'].unique()
+        )
+        plan_types = st.multiselect(
+            "Types of Plans Accepted",
+            options=["HMO", "PPO", "EPO", "POS"]
+        )
+
+        if st.form_submit_button("Add Provider"):
+            plan_handler.add_provider({
+                'name': provider_name,
+                'specialty': specialty,
+                'address': address,
+                'phone': phone,
+                'accepting_new_patients': accepting_new,
+                'insurance_accepted': insurance_accepted,
+                'plan_types': plan_types
+            })
+            st.success(f"Provider {provider_name} added successfully!")
+            st.rerun()
+
+    # Search providers
+    st.subheader("Search Providers")
+    col1, col2 = st.columns(2)
+    with col1:
+        search_specialty = st.selectbox(
+            "Filter by Specialty",
+            ["All"] + list(plan_handler.get_providers()['specialty'].unique())
+        )
+    with col2:
+        accepting_new_only = st.checkbox("Show Only Providers Accepting New Patients")
+
+    # Display filtered providers
+    filtered_providers = plan_handler.get_providers(
+        specialty=None if search_specialty == "All" else search_specialty,
+        accepting_new=accepting_new_only if accepting_new_only else None
+    )
+
+    if not filtered_providers.empty:
+        for _, provider in filtered_providers.iterrows():
+            with st.expander(f"{provider['name']} - {provider['specialty']}"):
+                st.write(f"Address: {provider['address']}")
+                st.write(f"Phone: {provider['phone']}")
+                st.write("Insurance Accepted:", ", ".join(provider['insurance_accepted']))
+                st.write("Plan Types:", ", ".join(provider['plan_types']))
+                if provider['accepting_new_patients']:
+                    st.success("✔️ Accepting New Patients")
+                else:
+                    st.warning("❌ Not Accepting New Patients")
+    else:
+        st.info("No providers found matching your criteria.")
 
 def main_app():
     # Sidebar navigation
@@ -67,9 +175,12 @@ def main_app():
 
     if st.sidebar.button("Logout"):
         auth_handler.logout_user()
-        st.experimental_rerun()
+        st.rerun()
 
-    page = st.sidebar.radio("Go to", ["Dashboard", "Add Plan", "Plan Details", "Find Providers"])
+    page = st.sidebar.radio(
+        "Go to",
+        ["Dashboard", "Add Plan", "Plan Details", "Manage Dependents", "Healthcare Providers"]
+    )
 
     if page == "Dashboard":
         st.title("Healthcare Benefits Dashboard")
@@ -223,7 +334,7 @@ def main_app():
                     plan_index = plans[plans['plan_name'] == selected_plan].index[0]
                     plan_handler.update_benefits_used(plan_index, benefit_amount)
                     st.success("Benefits updated successfully!")
-                    st.experimental_rerun()
+                    st.rerun()
 
             # Export functionality
             if st.button("Export Plan Details"):
@@ -236,6 +347,10 @@ def main_app():
                 )
         else:
             st.info("No plans added yet. Please add a plan first.")
+    elif page == "Manage Dependents":
+        manage_dependents_page()
+    elif page == "Healthcare Providers":
+        provider_search_page()
 
 # Main app flow
 if auth_handler.get_current_user() is None:
