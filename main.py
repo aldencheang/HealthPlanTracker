@@ -26,7 +26,7 @@ plan_handler = InsurancePlanHandler()
 
 def show_menu():
     menu_items = ["Blog", "Roadmap", "Features"]
-    menu = st.selectbox("☰", ["Menu"] + menu_items, key="menu_dropdown")
+    menu = st.selectbox("⋮", ["Menu"] + menu_items, key="menu_dropdown", label_visibility="collapsed")
     return menu
 
 def features_page():
@@ -84,27 +84,12 @@ def landing_page():
         # Blog Article 1
         st.markdown("""
         <div class="blog-card">
-            <div class="blog-image" style="background-color: #f0f2f6;">
-                📊 Healthcare Statistics Visualization
+            <div class="blog-image" style="background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
             </div>
             <div class="blog-content">
                 <h2 class="blog-title">The Hidden Cost of Unused Healthcare Benefits</h2>
                 <p class="blog-excerpt">Studies show that Americans leave billions in healthcare benefits unused each year. Learn how Nest helps you maximize your benefits and avoid leaving money on the table.</p>
-                <p>Recent studies indicate that the average American family loses over $750 annually in unused healthcare benefits. This represents a significant portion of their healthcare investment that could be better utilized for preventive care and necessary medical procedures.</p>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        # Blog Article 2
-        st.markdown("""
-        <div class="blog-card">
-            <div class="blog-image" style="background-color: #f0f2f6;">
-                🏥 Healthcare Provider Network
-            </div>
-            <div class="blog-content">
-                <h2 class="blog-title">Maximizing Your Healthcare Network</h2>
-                <p class="blog-excerpt">Understanding your provider network can save you thousands. Discover how Nest simplifies finding and managing in-network healthcare providers.</p>
-                <p>Out-of-network charges can be up to 5 times higher than in-network rates. Nest helps you stay within your network and manage your healthcare costs effectively.</p>
+                <p>Recent studies indicate that the average American family loses over $750 annually in unused healthcare benefits.</p>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -279,6 +264,41 @@ def landing_page():
             </div>
             """, unsafe_allow_html=True)
 
+        # Section Previews
+        st.markdown("""
+        <div class="section-preview">
+            <h2 class="section-title">Latest Insights 📚</h2>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Preview of latest blog post
+        st.markdown("""
+        <div class="blog-card">
+            <div class="blog-image" style="background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+            </div>
+            <div class="blog-content">
+                <h2 class="blog-title">The Hidden Cost of Unused Healthcare Benefits</h2>
+                <p class="blog-excerpt">Studies show that Americans leave billions in healthcare benefits unused each year...</p>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Roadmap Preview
+        st.markdown("""
+        <div class="section-preview">
+            <h2 class="section-title">What's Coming 🚀</h2>
+            <div class="roadmap-stage">
+                <h3 class="roadmap-title">Current Focus: Smart Benefits Tracking</h3>
+                <ul class="roadmap-features">
+                    <li>AI-powered benefits optimization</li>
+                    <li>Real-time provider availability</li>
+                    <li>Automated claims tracking</li>
+                </ul>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+
         # Join Beta Button
         st.markdown("""
         <a href="#" class="join-beta-button" onclick="handleBetaClick()">
@@ -289,7 +309,6 @@ def landing_page():
         if st.button("Already have access? Sign in →"):
             st.session_state.show_login = True
             st.rerun()
-
 
 
 def login_page():
