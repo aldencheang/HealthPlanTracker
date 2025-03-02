@@ -11,8 +11,8 @@ from utils.visualizations import (
 
 # Page configuration
 st.set_page_config(
-    page_title="Healthcare Benefits Dashboard",
-    page_icon="🏥",
+    page_title="Nest - Healthcare Benefits Dashboard",
+    page_icon="🪹",
     layout="wide"
 )
 
@@ -24,8 +24,83 @@ with open('styles/custom.css') as f:
 auth_handler = AuthHandler()
 plan_handler = InsurancePlanHandler()
 
+def landing_page():
+    # Hero Section
+    st.markdown("""
+    <div class="hero-section">
+        <h1 class="hero-title">Welcome to Nest</h1>
+        <p class="hero-subtitle">Your all-in-one healthcare benefits management platform</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Feature Highlights
+    st.subheader("Why Choose Nest?")
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("""
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Smart Benefits Tracking</h3>
+            <p>Monitor all your healthcare plans in one place. Track benefits usage, deductibles, and coverage periods effortlessly.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+        <div class="feature-card">
+            <div class="feature-icon">👨‍👩‍👧‍👦</div>
+            <h3>Family Management</h3>
+            <p>Easily manage dependents' coverage and track their benefits. Keep your family's healthcare organized.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("""
+        <div class="feature-card">
+            <div class="feature-icon">🏥</div>
+            <h3>Provider Network</h3>
+            <p>Find and save in-network healthcare providers. Get notifications about accepting new patients.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Beta Signup Section
+    st.markdown("""
+    <div class="beta-signup">
+        <h2>Join the Beta Program</h2>
+        <p>Be among the first to experience the future of healthcare benefits management.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    with st.form("beta_signup"):
+        col1, col2 = st.columns(2)
+        with col1:
+            name = st.text_input("Full Name")
+            email = st.text_input("Email Address")
+        with col2:
+            phone = st.text_input("Phone Number")
+            location = st.text_input("ZIP Code")
+
+        agreed = st.checkbox("I agree to receive updates about Nest's development and launch")
+
+        if st.form_submit_button("Join the Beta Waitlist"):
+            if name and email and phone and location and agreed:
+                st.success("Thanks for joining our beta waitlist! We'll keep you updated on our progress.")
+                # Here you would typically save this to a database
+            else:
+                st.error("Please fill in all fields and accept the terms.")
+
+    # Access Beta Button
+    if st.button("Already have beta access? Log in"):
+        st.session_state.show_login = True
+        st.rerun()
+
 def login_page():
-    st.title("Welcome to Healthcare Benefits Dashboard")
+    st.title("Beta Access - Login")
+
+    if st.button("← Back to Home"):
+        st.session_state.show_login = False
+        st.rerun()
 
     tab1, tab2 = st.tabs(["Login", "Sign Up"])
 
@@ -372,7 +447,13 @@ def main_app():
         provider_search_page()
 
 # Main app flow
+if 'show_login' not in st.session_state:
+    st.session_state.show_login = False
+
 if auth_handler.get_current_user() is None:
-    login_page()
+    if st.session_state.show_login:
+        login_page()
+    else:
+        landing_page()
 else:
     main_app()
